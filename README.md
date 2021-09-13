@@ -8,14 +8,14 @@ A place to spin up a single node small EKS cluster using terraform and  deploy s
 #### Getting started
 first create a S3 bucket and a dynamo-db table to manage our remote terraform state file.
 ``` 
-$ mv aws/remote_backend
+$ cd aws/remote_backend
 $ terraform init
 $ terrafor apply
 ```
 
 Now we will spin up eks and vpc for our cluster
 ```
-$ mv aws/
+$ cd aws/
 $ terraform init
 $ terraform plan -var-file vpc.tfvars -var-file eks.tfvars
 $ terraform apply -var-file vpc.tfvars -var-file eks.tfvars
@@ -28,7 +28,7 @@ $ aws eks --region ap-south-1 update-kubeconfig --name dev-org
 $ kubectl get nodes
 ```
 
-Before creating pods get the private ip address of node from above command and update it here
+Before creating pods get the private ip address of node from above command and update it [here](https://github.com/rohit-dimagi/arbitrum/blob/main/kubernetes/03-haproxy.yaml#L64)
 
 Now we can apply kubernetes configurations
 
