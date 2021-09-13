@@ -1,4 +1,12 @@
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: haproxy-kubernetes-ingress
+data:
+  syslog-server: "address:stdout, format: raw, facility:daemon"
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,6 +46,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
 
+
 ---
 apiVersion: v1
 kind: Service
@@ -61,7 +70,7 @@ spec:
       protocol: TCP
       targetPort: 1936
   externalIPs:
-    - 172.16.4.101
+    - 172.16.4.7
   selector:
     run: haproxy-ingress
 
@@ -75,16 +84,19 @@ metadata:
     kubernetes.io/ingress.class: "haproxy"
 spec:
   rules:
-  - host: 
+  - host: foo.com
     http:
       paths:
       - path: /foo
         pathType: Prefix
         backend:
           service:
-            name: service1
+            name: service2
             port:
               number: 3000
+  - host: bar.com
+    http:
+      paths:
       - path: /bar
         pathType: Prefix
         backend:
@@ -92,4 +104,3 @@ spec:
             name: service2
             port:
               number: 3000
-
