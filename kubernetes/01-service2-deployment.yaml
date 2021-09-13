@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service2
+  labels:
+    app: service2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service2
+  template:
+    metadata:
+      labels:
+        app: service2
+    spec:
+      containers:
+        - name: service-2
+          image: imagekitio/service-2
+          ports:
+          - containerPort: 3000
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service2
+  labels:
+    group: service2
+spec:
+  type: ClusterIP
+  selector:
+    app: service2
+  ports:
+    - port: 3000
+      targetPort: 3000
+
+
